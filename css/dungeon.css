@@ -1,0 +1,16 @@
+#dungeon-view {
+}
+
+#dungeon-view table {
+	background-color: black;
+	color: white;
+	border-collapse: collapse;
+}
+
+#dungeon-view td {
+	border: 1px solid #555;
+	width: 30px;
+	height: 30px;
+	vertical-align: middle;
+	text-align: center;
+}
