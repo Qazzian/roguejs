@@ -70,8 +70,8 @@ var DIRECTIONS = {
 
 
 
-function RougeException(msg, name){
-	this.name = name || "RougeException";
+function RogueException(msg, name){
+	this.name = name || "RogueException";
 	this.message = msg || "There was an unexpected error in the game";
 	toString = function(){
 		str = this.name + ": " + this.message;
@@ -81,7 +81,7 @@ function RougeException(msg, name){
 		return str;
 	};
 }
-RougeException.prototype = new Error();
+RogueException.prototype = new Error();
 
 /**
  * Throw this error if a position is out side the confines of the map
@@ -91,10 +91,10 @@ function OutOfBoundsException(x, y){
 	this.x = x;
 	this.y = y;
 }
-OutOfBoundsException.prototype = new RougeException("Position is outside of the map", "Out of Bounds Error");
+OutOfBoundsException.prototype = new RogueException("Position is outside of the map", "Out of Bounds Error");
 
 function PositionTakenException(x, y){
 	this.x = x;
 	this.y = y;
 }
-PositionTakenException.prototype = new RougeException("Position is taken by another object", "Out of Bounds Error");
+PositionTakenException.prototype = new RogueException("Position is taken by another object", "Out of Bounds Error");

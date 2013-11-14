@@ -1,8 +1,8 @@
-Rouge = function(){
+Rogue = function(){
 	this.init();
 };
 
-Rouge.prototype = {
+Rogue.prototype = {
 	player: null,
 	map: null,
 	view: null,
