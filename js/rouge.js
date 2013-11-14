@@ -29,11 +29,31 @@ Rouge.prototype = {
 
 	takeTurn: function(dir){
 		if (dir) {
-			this.player.move(dir);
+			try {
+				this.map.moveObj(this.player, dir);
+			}
+			catch (error) {
+				if (error instanceof OutOfBoundsException) {
+					this.message("You have reached the edge of the map");
+				}
+				else if (error instanceof PositionTakenException) {
+					this.message("You cannot move there. Something is in the way");
+				}
+				else {
+					throw error;
+				}
+			}
 		}
 
 
 		this.view.print();
+	},
+
+	/** 
+	 * Print a message for the player to read
+	 */
+	message: function(msg){
+		console.log(msg);
 	},
 
 	onKeyPress: function(event){

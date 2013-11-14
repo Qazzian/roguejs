@@ -21,16 +21,35 @@ Map.prototype = {
 
 	addObject: function(obj) {
 		this.objects.push(obj);
+	},
+
+	moveObj: function(obj, dir){
+		return this.placeObj(obj, obj.x+dir.dx, obj.y+dir.dy);
+	},
+
+	placeObj: function(obj, x, y) {
+		var otherObj;
+
+		if (!this.isOnMap(x,y)) {
+			throw new OutOfBoundsException(undefined, x, y);
+		}
+
+		otherObj = this.getObject(x, y);
+		// TODO It should be possible to have multiple objects in pne place
+		if (otherObj) {
+			throw new PositionTakenException(x, y);
+		}
+
+		obj.x = x;
+		obj.y = y;
+
+		return obj;
+	},
+
+	isOnMap: function(x, y) {
+		return 0<=x && x<this.width && 0<=y && y<this.height;
 	}
 
-};
-
-var Pos = new Array();
-Pos.prototype = {
-	set: function(x, y) {
-		this[0] = x;
-		this[1] = y;
-	}
 };
 
 var Dir = function(dx, dy) {
@@ -49,3 +68,33 @@ var DIRECTIONS = {
 	still: new Dir(0, 0),
 };
 
+
+
+function RougeException(msg, name){
+	this.name = name || "RougeException";
+	this.message = msg || "There was an unexpected error in the game";
+	toString = function(){
+		str = this.name + ": " + this.message;
+		if (! isNaN(this.x) && !isNaN(this.y)) {
+			str += "\nAt position " + this.x + ',' + this.y;
+		}
+		return str;
+	};
+}
+RougeException.prototype = new Error();
+
+/**
+ * Throw this error if a position is out side the confines of the map
+ * msg
+ */
+function OutOfBoundsException(x, y){
+	this.x = x;
+	this.y = y;
+}
+OutOfBoundsException.prototype = new RougeException("Position is outside of the map", "Out of Bounds Error");
+
+function PositionTakenException(x, y){
+	this.x = x;
+	this.y = y;
+}
+PositionTakenException.prototype = new RougeException("Position is taken by another object", "Out of Bounds Error");
