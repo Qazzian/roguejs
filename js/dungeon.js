@@ -1,15 +1,31 @@
 function Map(w, h){
+	var i, j;
 	if (w && h){
 		this.width = w;
 		this.height = h;
+
+		for (i=0; i<w; i++) {
+			this.tiles[i] = [];
+			for (j=0; j<h; j++) {
+				this.tiles[i][j] = new Tile();
+			}
+		}
 	}
 }
 
 Map.prototype = {
 	width: 100,
 	height: 75,
-	grid: [],
+	tiles: [],
 	objects: [],
+
+	getTile: function(x, y){
+		if (this.isOnMap(x,y)){
+			return this.tiles[x][y];
+		}
+		throw new OutOfBoundsException(x, y);
+	},
+
 	getObject: function(x, y){
 		for (var i=0; i<this.objects.length; i++) {
 			if (this.objects[i].x === x && this.objects[i].y === y) {
@@ -28,11 +44,13 @@ Map.prototype = {
 	},
 
 	placeObj: function(obj, x, y) {
-		var otherObj;
+		var tile, otherObj;
 
 		if (!this.isOnMap(x,y)) {
-			throw new OutOfBoundsException(undefined, x, y);
+			throw new OutOfBoundsException(x, y);
 		}
+
+		tile = 
 
 		otherObj = this.getObject(x, y);
 		// TODO It should be possible to have multiple objects in pne place
@@ -50,6 +68,33 @@ Map.prototype = {
 		return 0<=x && x<this.width && 0<=y && y<this.height;
 	}
 
+};
+
+function Tile(blocked, blockLOS){
+	if (typeof blocked !== "undefined") {
+		this.blocked = blocked;
+	}
+	if (typeof blockLOS !== "undefined") {
+		this.blockLOS = blockLOS;
+	}
+
+}
+Tile.prototype = {
+	blocked: true,
+	blockLOS: true
+};
+
+function Room(x, y, w, h){
+	this.x1 = x;
+	this.x2 = x+w;
+	this.y1 = y;
+	this.y2 = y+h;
+}
+Room.prototype = {
+	x1:null,
+	y1:null,
+	x2:null,
+	y2:null
 };
 
 var Dir = function(dx, dy) {
