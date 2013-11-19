@@ -1,8 +1,16 @@
-Rogue = function(){
+(function(global){
+
+"use strict";
+
+global.R = {};
+
+
+
+global.R.Rogue = function(){
 	this.init();
 };
 
-Rogue.prototype = {
+global.R.Rogue.prototype = {
 	player: null,
 	map: null,
 	view: null,
@@ -12,16 +20,15 @@ Rogue.prototype = {
 		var self = this;
 		$(document).on('keyup', function(event){self.onKeyPress(event);});
 		$(document).on('click', function(event){self.onMouseClick(event);});
+		this.map = new global.R.Map(20, 10);
 
-		this.map = new Map(20, 10);
-
-		this.player = new Player();
+		this.player = new global.R.Player();
 		this.player.x = 5;
 		this.player.y = 3;
 		this.map.addObject(this.player);
 
 
-		this.view = new SimpleView(this.map);
+		this.view = new global.R.SimpleView(this.map);
 		this.view.init();
 		this.view.print();
 
@@ -33,10 +40,10 @@ Rogue.prototype = {
 				this.map.moveObj(this.player, dir);
 			}
 			catch (error) {
-				if (error instanceof OutOfBoundsException) {
+				if (error instanceof global.R.OutOfBoundsException) {
 					this.message("You have reached the edge of the map");
 				}
-				else if (error instanceof PositionTakenException) {
+				else if (error instanceof global.R.PositionTakenException) {
 					this.message("You cannot move there. Something is in the way");
 				}
 				else {
@@ -60,6 +67,7 @@ Rogue.prototype = {
 		console.log("Keypress: " , event.keyCode);
 		var dir = null;
 		var takeTurn = false;
+		var DIRECTIONS = global.R.DIRECTIONS;
 
 		switch (event.keyCode) {
 
@@ -96,12 +104,12 @@ Rogue.prototype = {
 };
 
 
-function Schedular(){
+global.R.Schedular = function(){
 	this.turnCount = -1;
 	this.schedule = [];
-}
+};
 
-Schedular.prototype = {
+global.R.Schedular.prototype = {
 
 	/**
 	 * Add an event to run in <code>time</code> turns
@@ -139,7 +147,11 @@ Schedular.prototype = {
 	}
 };
 
-function GameEvent(callback, context){
+global.R.GameEvent = function(callback, context){
 	this.func = callback;
 	this.context = context || window;
-}
+};
+
+
+})(this);
+

@@ -1,10 +1,17 @@
-OBJECT_TYPES = {};
+(function(global){
+
+"use strict";
+
+
+
+
+var OBJECT_TYPES = global.R.OBJECT_TYPES = {};
 
 function loadObjectTypes(){
-	OBJECT_TYPES.default = function(){ return new AbstractObject('default', '', ' ')};
+	OBJECT_TYPES.default = function(){ return new AbstractObject('default', '', ' ');};
 	OBJECT_TYPES.player = Player;
 	OBJECT_TYPES.wall = new AbstractObject('wall', 'wall', '#');
-};
+}
 
 function AbstractObject(type, name, icon, color) {
 	this.type = type;
@@ -53,11 +60,12 @@ AbstractObject.prototype = {
 	}
 };
 
-function Player(){
+var Player = global.R.Player = function(){
 	this.flags.isPlayer = true;
-	isVisible: true,
+	this.isVisible = true;
 	this.flags.isAttackable = true;
-}
+};
 
 Player.prototype = new AbstractObject('player', 'you', '@');
 
+})(this);

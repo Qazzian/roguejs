@@ -1,8 +1,8 @@
-(function(){
+(function(global){
 
 "use strict";
 
-window.SimpleView = function (map){
+var SimpleView = global.R.SimpleView = function (map){
 	this.map = map;
 };
 
@@ -67,4 +67,4 @@ SimpleView.prototype = {
 
 
 
-})();
+})(this);

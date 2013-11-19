@@ -1,4 +1,7 @@
-function Map(w, h){
+(function(global){
+"use strict";
+
+global.R.Map = function(w, h){
 	var i, j;
 	if (w && h){
 		this.width = w;
@@ -7,13 +10,13 @@ function Map(w, h){
 		for (i=0; i<w; i++) {
 			this.tiles[i] = [];
 			for (j=0; j<h; j++) {
-				this.tiles[i][j] = new Tile();
+				this.tiles[i][j] = new global.R.Tile();
 			}
 		}
 	}
-}
+};
 
-Map.prototype = {
+global.R.Map.prototype = {
 	width: 100,
 	height: 75,
 	tiles: [],
@@ -23,7 +26,7 @@ Map.prototype = {
 		if (this.isOnMap(x,y)){
 			return this.tiles[x][y];
 		}
-		throw new OutOfBoundsException(x, y);
+		throw new global.R.OutOfBoundsException(x, y);
 	},
 
 	getObject: function(x, y){
@@ -47,7 +50,7 @@ Map.prototype = {
 		var tile, otherObj;
 
 		if (!this.isOnMap(x,y)) {
-			throw new OutOfBoundsException(x, y);
+			throw new global.R.OutOfBoundsException(x, y);
 		}
 
 		tile = 
@@ -55,7 +58,7 @@ Map.prototype = {
 		otherObj = this.getObject(x, y);
 		// TODO It should be possible to have multiple objects in pne place
 		if (otherObj) {
-			throw new PositionTakenException(x, y);
+			throw new global.R.PositionTakenException(x, y);
 		}
 
 		obj.x = x;
@@ -70,16 +73,16 @@ Map.prototype = {
 
 };
 
-function Tile(blocked, blockLOS){
+global.R.Tile = function(blocked, blockLOS){
 	if (typeof blocked !== "undefined") {
 		this.blocked = blocked;
 	}
 	if (typeof blockLOS !== "undefined") {
 		this.blockLOS = blockLOS;
 	}
+};
 
-}
-Tile.prototype = {
+global.R.Tile.prototype = {
 	blocked: true,
 	blockLOS: true
 };
@@ -101,7 +104,7 @@ var Dir = function(dx, dy) {
 	this.dx = dx;
 	this.dy = dy;
 };
-var DIRECTIONS = {
+var DIRECTIONS = global.R.DIRECTIONS = {
 	n: new Dir(0, -1),
 	ne: new Dir(1, -1),
 	e: new Dir(1, 0),
@@ -115,31 +118,35 @@ var DIRECTIONS = {
 
 
 
-function RogueException(msg, name){
+var RogueException = global.R.RogueException = function(msg, name){
 	this.name = name || "RogueException";
 	this.message = msg || "There was an unexpected error in the game";
-	toString = function(){
+	this.toString = function(){
 		str = this.name + ": " + this.message;
 		if (! isNaN(this.x) && !isNaN(this.y)) {
 			str += "\nAt position " + this.x + ',' + this.y;
 		}
 		return str;
 	};
-}
-RogueException.prototype = new Error();
+};
+
+global.R.RogueException.prototype = new Error();
 
 /**
  * Throw this error if a position is out side the confines of the map
  * msg
  */
-function OutOfBoundsException(x, y){
+global.R.OutOfBoundsException = function(x, y){
 	this.x = x;
 	this.y = y;
-}
-OutOfBoundsException.prototype = new RogueException("Position is outside of the map", "Out of Bounds Error");
+};
+global.R.OutOfBoundsException.prototype = new RogueException("Position is outside of the map", "Out of Bounds Error");
 
-function PositionTakenException(x, y){
+global.R.PositionTakenException = function(x, y){
 	this.x = x;
 	this.y = y;
-}
-PositionTakenException.prototype = new RogueException("Position is taken by another object", "Out of Bounds Error");
+};
+global.R.PositionTakenException.prototype = new RogueException("Position is taken by another object", "Out of Bounds Error");
+
+
+})(this);
