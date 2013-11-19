@@ -19,7 +19,7 @@ global.R.Rogue.prototype = {
 	init: function(){
 		var self = this;
 		$(document).on('keyup', function(event){self.onKeyPress(event);});
-		$(document).on('click', function(event){self.onMouseClick(event);});
+		
 		this.map = new global.R.Map(20, 10);
 
 		this.player = new global.R.Player();
@@ -98,9 +98,7 @@ global.R.Rogue.prototype = {
 		}
 	},
 
-	onMouseClick: function(){
-		console.log("Keypress: " , event);
-	}
+	
 };
 
 
