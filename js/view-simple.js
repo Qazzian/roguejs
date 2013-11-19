@@ -6,6 +6,12 @@ var SimpleView = global.R.SimpleView = function (map){
 	this.map = map;
 };
 
+var objTypeToClass = {
+	default: '',
+	wall: 'tile_wall',
+	player: 'icon_player'
+};
+
 SimpleView.prototype = {
 	ready: false,
 	container: null,
@@ -61,7 +67,7 @@ SimpleView.prototype = {
 
 	printIcon: function(elmt, gameObj){
 		elmt.innerHTML = gameObj.icon || ' ';
-		// elmt.css({color: gameObj.color || ''});
+		elmt.className = objTypeToClass[gameObj.type] || objTypeToClass.default;
 	}
 };
 
