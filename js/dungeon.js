@@ -1,7 +1,7 @@
 (function(global){
 "use strict";
 
-global.R.Map = function(w, h){
+var Map = global.R.Map = function(w, h){
 	var i, j;
 	if (w && h){
 		this.width = w;
@@ -147,6 +147,45 @@ global.R.PositionTakenException = function(x, y){
 	this.y = y;
 };
 global.R.PositionTakenException.prototype = new RogueException("Position is taken by another object", "Out of Bounds Error");
+
+
+function MapSeriallizer(){
+
+}
+
+MapSeriallizer.prototype = {
+	tileKey: {
+
+	},
+	iconKey:{},
+
+	save: function(map){
+
+	},
+	/**
+	 * returns a map object
+	 */
+	load: function(string){
+		var map, w, h, x=0, y=0, rows = mapStr.split('\n');
+
+		h = rows.length;
+		w = rows[0].length;
+
+		map = new Map(w, h);
+
+
+
+
+
+	}
+};
+
+// Generate the mapping of icons to tiles
+for (var tile in MapSeriallizer.prototype.tileKey) {
+	MapSeriallizer.prototype.iconKey[MapSeriallizer.prototype.tileKey[tile]] = tile;
+}
+
+
 
 
 })(this);
