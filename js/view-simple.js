@@ -67,7 +67,7 @@ SimpleView.prototype = {
 
 	printIcon: function(elmt, gameObj){
 		elmt.innerHTML = gameObj.icon || ' ';
-		elmt.className = objTypeToClass[gameObj.type] || objTypeToClass.default;
+		elmt.className = objTypeToClass[gameObj.type] || 'icon_'+gameObj.type ||objTypeToClass.default;
 	}
 };
 

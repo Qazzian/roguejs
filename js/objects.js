@@ -2,27 +2,54 @@
 
 "use strict";
 
+var R = global.R;
 
+/**
+TODO
 
+Need to seperate objects from terrain.
+Terrain are features of the map that cannot be changed (well maybe)
 
-var OBJECT_TYPES = global.R.OBJECT_TYPES = {};
+Objects do something useful and can be interacted with.
+
+**/
+
+var OBJECT_TYPES = R.OBJECT_TYPES = {};
 
 function loadObjectTypes(){
-	OBJECT_TYPES.default = function(){ return new AbstractObject('default', '', ' ');};
-	OBJECT_TYPES.player = Player;
-	OBJECT_TYPES.wall = new AbstractObject('wall', 'wall', '#');
+	OBJECT_TYPES.default = new AbstractObjectType('default', '', ' ');
+	OBJECT_TYPES.player = playerType();
+	// OBJECT_TYPES.wall = new AbstractObjectType('wall', 'wall', '#');
+	OBJECT_TYPES.ncp = new AbstractObjectType('ncp', 'NCP', '@', {color: 'yellow'});
 }
 
-function AbstractObject(type, name, icon, color) {
+R.newObj = function(type, x, y){
+	var obj;
+	if (OBJECT_TYPES.hasOwnProperty(type)) {
+		
+	}
+};
+
+/**
+ * @param type - The internal class name of the object
+ * @param name - The user friendly name of the object class
+ * @param icon - The utf8 character used to represent the object class
+ * @param options {object} @optional - A list of options and their values
+ */
+function AbstractObjectType(type, name, icon, options) {
 	this.type = type;
 	this.name = name;
 	this.icon = icon;
-	if (color) {
-		this.color = color;
+	if (options) {
+		for (var k in options) {
+			if (k in this) {
+				this[k] = options[k];
+			}
+		}
 	}
 }
 
-AbstractObject.prototype = {
+AbstractObjectType.prototype = {
 	pos: null,
 	type: null,
 	name: null,
@@ -60,12 +87,14 @@ AbstractObject.prototype = {
 	}
 };
 
-var Player = global.R.Player = function(){
-	this.flags.isPlayer = true;
-	this.isVisible = true;
-	this.flags.isAttackable = true;
+var playerType = R.Player = function(){
+	var player = new AbstractObjectType('player', 'you', '@', {color: 'green'});
+	player.flags.isPlayer = true;
+	player.isVisible = true;
+	player.flags.isAttackable = true;
+	return player;
 };
 
-Player.prototype = new AbstractObject('player', 'you', '@');
+loadObjectTypes();
 
 })(this);

@@ -2,15 +2,15 @@
 
 "use strict";
 
-global.R = {};
+var R = global.R = {};
 
 
 
-global.R.Rogue = function(){
+R.Rogue = function(){
 	this.init();
 };
 
-global.R.Rogue.prototype = {
+R.Rogue.prototype = {
 	player: null,
 	map: null,
 	view: null,
@@ -20,15 +20,16 @@ global.R.Rogue.prototype = {
 		var self = this;
 		$(document).on('keyup', function(event){self.onKeyPress(event);});
 		
-		this.map = new global.R.Map(20, 10);
+		this.map = new R.Map(20, 10);
 
-		this.player = new global.R.Player();
+		this.player = R.OBJECT_TYPES.player;
 		this.player.x = 5;
 		this.player.y = 3;
 		this.map.addObject(this.player);
+		this.map.addObject({type:'ncp', name:'NCP', icon:'@', x:10, y:5});
 
 
-		this.view = new global.R.SimpleView(this.map);
+		this.view = new R.SimpleView(this.map);
 		this.view.init();
 		this.view.print();
 
@@ -40,10 +41,10 @@ global.R.Rogue.prototype = {
 				this.map.moveObj(this.player, dir);
 			}
 			catch (error) {
-				if (error instanceof global.R.OutOfBoundsException) {
+				if (error instanceof R.OutOfBoundsException) {
 					this.message("You have reached the edge of the map");
 				}
-				else if (error instanceof global.R.PositionTakenException) {
+				else if (error instanceof R.PositionTakenException) {
 					this.message("You cannot move there. Something is in the way");
 				}
 				else {
@@ -67,7 +68,7 @@ global.R.Rogue.prototype = {
 		console.log("Keypress: " , event.keyCode);
 		var dir = null;
 		var takeTurn = false;
-		var DIRECTIONS = global.R.DIRECTIONS;
+		var DIRECTIONS = R.DIRECTIONS;
 
 		switch (event.keyCode) {
 
@@ -102,12 +103,12 @@ global.R.Rogue.prototype = {
 };
 
 
-global.R.Schedular = function(){
+R.Schedular = function(){
 	this.turnCount = -1;
 	this.schedule = [];
 };
 
-global.R.Schedular.prototype = {
+R.Schedular.prototype = {
 
 	/**
 	 * Add an event to run in <code>time</code> turns
@@ -145,7 +146,7 @@ global.R.Schedular.prototype = {
 	}
 };
 
-global.R.GameEvent = function(callback, context){
+R.GameEvent = function(callback, context){
 	this.func = callback;
 	this.context = context || window;
 };
