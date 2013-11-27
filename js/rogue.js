@@ -23,10 +23,8 @@ R.Rogue.prototype = {
 		this.map = new R.Map(20, 10);
 
 		this.player = R.OBJECT_TYPES.player;
-		this.player.x = 5;
-		this.player.y = 3;
-		this.map.addObject(this.player);
-		this.map.addObject({type:'ncp', name:'NCP', icon:'@', x:10, y:5});
+		this.map.addObject(this.player, 5, 3);
+		this.map.addObject(R.objFactory(R.OBJECT_TYPES.ncp), 10, 5);
 
 
 		this.view = new R.SimpleView(this.map);

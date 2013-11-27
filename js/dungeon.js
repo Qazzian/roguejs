@@ -38,7 +38,8 @@ global.R.Map.prototype = {
 		return null;
 	},
 
-	addObject: function(obj) {
+	addObject: function(obj, x, y) {
+		this.placeObj(obj, x, y);
 		this.objects.push(obj);
 	},
 
@@ -53,7 +54,7 @@ global.R.Map.prototype = {
 			throw new global.R.OutOfBoundsException(x, y);
 		}
 
-		tile = 
+		//tile = 
 
 		otherObj = this.getObject(x, y);
 		// TODO It should be possible to have multiple objects in pne place

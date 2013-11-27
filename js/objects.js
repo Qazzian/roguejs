@@ -12,23 +12,26 @@ Terrain are features of the map that cannot be changed (well maybe)
 
 Objects do something useful and can be interacted with.
 
+TODO sort out the prototype inheritance model of the Objects.
+	at the moment changing the flags of one obj changes the flag for all objects
+
 **/
 
 var OBJECT_TYPES = R.OBJECT_TYPES = {};
 
 function loadObjectTypes(){
-	OBJECT_TYPES.default = new AbstractObjectType('default', '', ' ');
+	OBJECT_TYPES.default = new ObjectTemplate('default', '', ' ');
 	OBJECT_TYPES.player = playerType();
-	// OBJECT_TYPES.wall = new AbstractObjectType('wall', 'wall', '#');
-	OBJECT_TYPES.ncp = new AbstractObjectType('ncp', 'NCP', '@', {color: 'yellow'});
+	// OBJECT_TYPES.wall = new ObjectTemplate('wall', 'wall', '#');
+	OBJECT_TYPES.ncp = new ObjectTemplate('ncp', 'NCP', '@', {color: 'yellow'});
 }
 
-R.newObj = function(type, x, y){
-	var obj;
-	if (OBJECT_TYPES.hasOwnProperty(type)) {
-		
-	}
+R.objFactory = function(template) {
+	var Obj = function(){};
+	Obj.prototype = template.clone;
+	return new Obj();
 };
+
 
 /**
  * @param type - The internal class name of the object
@@ -36,7 +39,7 @@ R.newObj = function(type, x, y){
  * @param icon - The utf8 character used to represent the object class
  * @param options {object} @optional - A list of options and their values
  */
-function AbstractObjectType(type, name, icon, options) {
+function ObjectTemplate(type, name, icon, options) {
 	this.type = type;
 	this.name = name;
 	this.icon = icon;
@@ -49,8 +52,7 @@ function AbstractObjectType(type, name, icon, options) {
 	}
 }
 
-AbstractObjectType.prototype = {
-	pos: null,
+ObjectTemplate.prototype = {
 	type: null,
 	name: null,
 	icon: ' ',
@@ -81,14 +83,13 @@ AbstractObjectType.prototype = {
 		isNPC: false
 	},
 
-	move: function(dir){
-		this.x += dir.dx;
-		this.y += dir.dy;
+	clone: function(){
+
 	}
 };
 
 var playerType = R.Player = function(){
-	var player = new AbstractObjectType('player', 'you', '@', {color: 'green'});
+	var player = new ObjectTemplate('player', 'you', '@', {color: 'green'});
 	player.flags.isPlayer = true;
 	player.isVisible = true;
 	player.flags.isAttackable = true;
