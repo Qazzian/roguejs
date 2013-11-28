@@ -28,7 +28,7 @@ function loadObjectTypes(){
 
 R.objFactory = function(template) {
 	var Obj = function(){};
-	Obj.prototype = template.clone;
+	Obj.prototype = template.clone();
 	return new Obj();
 };
 
@@ -84,7 +84,7 @@ ObjectTemplate.prototype = {
 	},
 
 	clone: function(){
-
+		return _.cloneDeep(this);
 	}
 };
 
