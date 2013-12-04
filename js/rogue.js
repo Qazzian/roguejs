@@ -74,7 +74,7 @@ R.Rogue.prototype = {
 	},
 
 	onKeyPress: function(event){
-		console.log("Keypress: " , event.keyCode);
+		//console.log("Keypress: " , event.keyCode);
 		var dir = null;
 		var takeTurn = false;
 		var DIRECTIONS = R.DIRECTIONS;
