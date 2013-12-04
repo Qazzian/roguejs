@@ -9,6 +9,10 @@ var Map = R.Map = function(w, h, terrain){
 	this.tiles = [];
 	this.objects = [];
 
+	if (terrain) {
+		return this.loadMap(terrain);
+	}
+
 	if (w && h){
 		this.width = w;
 		this.height = h;
@@ -76,6 +80,41 @@ R.Map.prototype = {
 
 	isOnMap: function(x, y) {
 		return 0<=x && x<this.width && 0<=y && y<this.height;
+	},
+
+	loadMap: function(terrain){
+
+		var w, h, x, y, rows = terrain.split('\n');
+
+		h = rows.length;
+		w = rows[0].length;
+
+		console.log("terrain width: ", w, "height: ", h, "\ndata: ", rows);
+
+		this.width = w;
+		this.height = h;
+		this.tiles = [];
+
+		for (x=0; x<w; x++) {
+			this.tiles[x] = [];
+			for (y=0; y<h; y++) {
+				this.tiles[x][y] = new R.Tile(R.TERRAIN_ICON_TO_TYPE[rows[y][x]]);
+			}
+		}
+	},
+
+	loadObjects: function(objectData){
+		var i=0, l=objectData.length, objData;
+		for (; i<l; i++) {
+			objData = objectData[i];
+			this.addObject(R.objFactory(objData.type), objData.x, objData.y);
+		}
+	},
+
+	loadPlayer: function(playerData){
+		var player = R.objFactory(playerData.type);
+		this.addObject(player, playerData.x, playerData.y);
+		return player;
 	}
 
 };
@@ -212,12 +251,6 @@ MapSeriallizer.prototype = {
 	 * returns a map object
 	 */
 	load: function(string){
-		var map, w, h, x=0, y=0, rows = mapStr.split('\n');
-
-		h = rows.length;
-		w = rows[0].length;
-
-		map = new Map(w, h);
 
 
 
