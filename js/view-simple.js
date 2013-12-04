@@ -69,6 +69,10 @@ SimpleView.prototype = {
 		var className = '', content = ' ';
 		$elmt[0].className = '';
 
+		if (terrain) {
+			content = terrain.icon;
+			$elmt.addClass('tile_' + terrain.type);
+		}
 
 
 		if (gameObj) {

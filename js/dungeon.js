@@ -16,7 +16,7 @@ var Map = R.Map = function(w, h, terrain){
 		for (i=0; i<w; i++) {
 			this.tiles[i] = [];
 			for (j=0; j<h; j++) {
-				this.tiles[i][j] = new global.R.Tile();
+				this.tiles[i][j] = R.buildTile('space');
 			}
 		}
 	}
@@ -80,19 +80,52 @@ R.Map.prototype = {
 
 };
 
-global.R.Tile = function(blocked, blockLOS){
-	if (typeof blocked !== "undefined") {
-		this.blocked = blocked;
+R.Tile = function(options){
+	this.type = options.type;
+	this.icon = options.icon;
+	if (typeof options.blockPath !== "undefined") {
+		this.blockPath = options.blockPath;
 	}
-	if (typeof blockLOS !== "undefined") {
-		this.blockLOS = blockLOS;
+	if (typeof options.blockLOS !== "undefined") {
+		this.blockLOS = options.blockLOS;
 	}
 };
 
-global.R.Tile.prototype = {
-	blocked: true,
-	blockLOS: true
+R.Tile.prototype = {
+	icon: '',
+	type: '',
+	blockPath: false,
+	blockLOS: false
 };
+
+R.TERRAIN_TYPES = {
+	space: {type: 'space', icon: ' ', blockPath: false, blockLOS: false},
+	wall: {type: 'wall', icon: '#', blockPath: true, blockLOS: true},
+	corridor: {type: 'corridor', icon: ' '},
+	water: {type: 'water', icon: '♒︎'}
+};
+
+R.TERRAIN_ICON_TO_TYPE = {};
+
+(function(R){
+	for (var type in R.TERRAIN_TYPES) {
+		R.TERRAIN_ICON_TO_TYPE[R.TERRAIN_TYPES[type].icon] = R.TERRAIN_TYPES[type];
+	}
+})(R);
+
+R.tileFromIcon = function(icon) {
+	return (R.TERRAIN_ICON_TO_TYPE[icon]);
+};
+
+R.buildTile = function(type){
+	if (typeof type === 'string') {
+		type = R.TERRAIN_TYPES[type];
+	}
+	return new R.Tile(type);
+
+};
+
+
 
 function Room(x, y, w, h){
 	this.x1 = x;
@@ -155,6 +188,12 @@ R.PositionTakenException = function(x, y){
 };
 R.PositionTakenException.prototype = new RogueException("Position is taken by another object", "Position Taken Error");
 
+R.PositionImpassibleException = function(x, y, tile){
+	this.x = x;
+	this.y = y;
+	this.tile = tile;
+};
+R.PositionImpassibleException.prototype = new RogueException("Terrain impassible", "Position Impassible Error");
 
 function MapSeriallizer(){
 
