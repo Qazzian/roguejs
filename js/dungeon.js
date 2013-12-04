@@ -1,7 +1,9 @@
 (function(global){
 "use strict";
 
-var Map = global.R.Map = function(w, h){
+var R = global.R;
+
+var Map = R.Map = function(w, h, terrain){
 	var i, j;
 	if (w && h){
 		this.width = w;
@@ -16,7 +18,7 @@ var Map = global.R.Map = function(w, h){
 	}
 };
 
-global.R.Map.prototype = {
+R.Map.prototype = {
 	width: 100,
 	height: 75,
 	tiles: [],
@@ -26,7 +28,7 @@ global.R.Map.prototype = {
 		if (this.isOnMap(x,y)){
 			return this.tiles[x][y];
 		}
-		throw new global.R.OutOfBoundsException(x, y);
+		throw new R.OutOfBoundsException(x, y);
 	},
 
 	getObject: function(x, y){
@@ -51,7 +53,7 @@ global.R.Map.prototype = {
 		var tile, otherObj;
 
 		if (!this.isOnMap(x,y)) {
-			throw new global.R.OutOfBoundsException(x, y);
+			throw new R.OutOfBoundsException(x, y);
 		}
 
 		//tile = 
@@ -59,7 +61,7 @@ global.R.Map.prototype = {
 		otherObj = this.getObject(x, y);
 		// TODO It should be possible to have multiple objects in pne place
 		if (otherObj) {
-			throw new global.R.PositionTakenException(x, y);
+			throw new R.PositionTakenException(x, y);
 		}
 
 		obj.x = x;
@@ -105,7 +107,7 @@ var Dir = function(dx, dy) {
 	this.dx = dx;
 	this.dy = dy;
 };
-var DIRECTIONS = global.R.DIRECTIONS = {
+var DIRECTIONS = R.DIRECTIONS = {
 	n: new Dir(0, -1),
 	ne: new Dir(1, -1),
 	e: new Dir(1, 0),
@@ -119,7 +121,7 @@ var DIRECTIONS = global.R.DIRECTIONS = {
 
 
 
-var RogueException = global.R.RogueException = function(msg, name){
+var RogueException = R.RogueException = function(msg, name){
 	this.name = name || "RogueException";
 	this.message = msg || "There was an unexpected error in the game";
 	this.toString = function(){
@@ -131,23 +133,23 @@ var RogueException = global.R.RogueException = function(msg, name){
 	};
 };
 
-global.R.RogueException.prototype = new Error();
+R.RogueException.prototype = new Error();
 
 /**
  * Throw this error if a position is out side the confines of the map
  * msg
  */
-global.R.OutOfBoundsException = function(x, y){
+R.OutOfBoundsException = function(x, y){
 	this.x = x;
 	this.y = y;
 };
-global.R.OutOfBoundsException.prototype = new RogueException("Position is outside of the map", "Out of Bounds Error");
+R.OutOfBoundsException.prototype = new RogueException("Position is outside of the map", "Out of Bounds Error");
 
-global.R.PositionTakenException = function(x, y){
+R.PositionTakenException = function(x, y){
 	this.x = x;
 	this.y = y;
 };
-global.R.PositionTakenException.prototype = new RogueException("Position is taken by another object", "Out of Bounds Error");
+R.PositionTakenException.prototype = new RogueException("Position is taken by another object", "Position Taken Error");
 
 
 function MapSeriallizer(){

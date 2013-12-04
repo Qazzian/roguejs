@@ -26,7 +26,7 @@ function loadObjectTypes(){
 	OBJECT_TYPES.ncp = new ObjectTemplate('ncp', 'NCP', '@', {color: 'yellow'});
 }
 
-R.objFactory = function(template) {
+var objFactory = R.objFactory = function(template) {
 	var Obj = function(){};
 	Obj.prototype = template.clone();
 	return new Obj();
