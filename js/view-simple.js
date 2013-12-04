@@ -38,7 +38,7 @@ SimpleView.prototype = {
 			for (var x=0; x<map.width; x++) {
 				var td = document.createElement('td');
 				row.append(td);
-				this.grid[x][y] = td;
+				this.grid[x][y] = $(td);
 
 				this.printTile(x, y);
 
@@ -62,12 +62,25 @@ SimpleView.prototype = {
 			tile = this.map.getTile(x, y),
 			obj = this.map.getObject(x, y);
 
-		this.printIcon(td, obj || tile);
+			this.printIcon(td, tile, obj);
 	},
 
-	printIcon: function(elmt, gameObj){
-		elmt.innerHTML = gameObj.icon || ' ';
-		elmt.className = objTypeToClass[gameObj.type] || 'icon_'+gameObj.type ||objTypeToClass.default;
+	printIcon: function($elmt, terrain, gameObj){
+		var className = '', content = ' ';
+		$elmt[0].className = '';
+
+
+
+		if (gameObj) {
+			content = gameObj.icon;
+			$elmt.addClass(objTypeToClass[gameObj.type] || 'icon_' + gameObj.type);
+			if (!gameObj.flags.isVisible) {
+				$elmt.addClass('icon_hidden');
+			}
+		}
+
+		$elmt.html(content);
+		
 	}
 };
 

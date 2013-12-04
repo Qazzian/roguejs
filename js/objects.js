@@ -23,11 +23,14 @@ function loadObjectTypes(){
 	OBJECT_TYPES.default = new ObjectTemplate('default', '', ' ');
 	OBJECT_TYPES.player = playerType();
 	// OBJECT_TYPES.wall = new ObjectTemplate('wall', 'wall', '#');
-	OBJECT_TYPES.ncp = new ObjectTemplate('ncp', 'NCP', '@', {color: 'yellow'});
+	OBJECT_TYPES.npc = new ObjectTemplate('npc', 'NPC', '@', {color: '#ffff00'});
 }
 
 var objFactory = R.objFactory = function(template) {
 	var Obj = function(){};
+	if (typeof template === 'string') {
+		template = OBJECT_TYPES[template];
+	}
 	Obj.prototype = template.clone();
 	return new Obj();
 };
@@ -43,6 +46,8 @@ function ObjectTemplate(type, name, icon, options) {
 	this.type = type;
 	this.name = name;
 	this.icon = icon;
+	this.flags = _.clone(ObjectTemplate.prototype.flags);
+	this.attributes = _.clone(ObjectTemplate.prototype.attributes);
 	if (options) {
 		for (var k in options) {
 			if (k in this) {
@@ -69,7 +74,7 @@ ObjectTemplate.prototype = {
 		isVisible: false,
 		// If the player has seen the object (only applies to objects that havn't moved and !isMoile)
 		hasBeenSeen: false,
-		// If the object can move 
+		// If the object can move its self
 		isMobile: false,
 		// Can the player move this object
 		isMovable: false,
@@ -79,7 +84,7 @@ ObjectTemplate.prototype = {
 		blockLOS: false,
 		// Can the player attack it
 		isAttackable: false,
-		// Is the object an NPC (monster, merchant etc)
+		// Is the object an NPC (monster, merchant etc) as opposed to an inamiate object
 		isNPC: false
 	},
 
@@ -88,12 +93,22 @@ ObjectTemplate.prototype = {
 	}
 };
 
+var thePlayer;
+
 var playerType = R.Player = function(){
-	var player = new ObjectTemplate('player', 'you', '@', {color: 'green'});
+	var player = new ObjectTemplate('player', 'you', '@', {color: '#22A522'});
 	player.flags.isPlayer = true;
-	player.isVisible = true;
+	player.flags.isVisible = true;
 	player.flags.isAttackable = true;
+
+	// thePlayer = player;
+	// player.clone = function(){
+	// 	return thePlayer;
+	// };
+
 	return player;
+
+	
 };
 
 loadObjectTypes();

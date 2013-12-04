@@ -5,6 +5,10 @@ var R = global.R;
 
 var Map = R.Map = function(w, h, terrain){
 	var i, j;
+
+	this.tiles = [];
+	this.objects = [];
+
 	if (w && h){
 		this.width = w;
 		this.height = h;
@@ -21,8 +25,8 @@ var Map = R.Map = function(w, h, terrain){
 R.Map.prototype = {
 	width: 100,
 	height: 75,
-	tiles: [],
-	objects: [],
+	tiles: null,
+	objects: null,
 
 	getTile: function(x, y){
 		if (this.isOnMap(x,y)){

@@ -16,5 +16,7 @@
 }
 
 /** Tiles and Objects  **/
-.icon_player{ color: green;}
-.icon_ncp{ color: yellow;}
+.icon_player{ color: #22A522;}
+.icon_npc{ color: yellow;}
+
+.hidden { color: light_grey !important; }
