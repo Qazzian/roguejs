@@ -4,6 +4,22 @@ TODO
 Create map generator
 */
 
+window.R.testMaps = {
+	veryBasic1: {
+		w:8, h:5,
+		terrain: ["########", "#      #", "#      #", "#      #", "########"].join('\n'),
+		objects: [],
+		player: {type:'player', x:3, y:2}
+	},
+	veryBasic2: {
+		w:20, h:10,
+		objects: [
+				{type: 'npc', x:10, y:5}
+			],
+		player: {type:'player', x:5, y:3}
+	}
+};
+
 (function(){
 
 	"use strict";
