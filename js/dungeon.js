@@ -64,7 +64,10 @@ R.Map.prototype = {
 			throw new R.OutOfBoundsException(x, y);
 		}
 
-		//tile = 
+		tile = this.tiles[x][y];
+		if (tile.blockPath) {
+			throw new R.PositionImpassibleException(x, y, tile);
+		}
 
 		otherObj = this.getObject(x, y);
 		// TODO It should be possible to have multiple objects in pne place
