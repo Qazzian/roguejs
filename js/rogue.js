@@ -17,14 +17,22 @@ R.Rogue.prototype = {
 	schedular: null,
 
 	init: function(){
-		var self = this;
+		var self = this,
+			mapData;
 		$(document).on('keyup', function(event){self.onKeyPress(event);});
 		
-		this.map = new R.Map(20, 10);
+		// this.map = new R.Map(20, 10);
 
-		this.player = R.OBJECT_TYPES.player;
-		this.map.addObject(this.player, 5, 3);
-		this.map.addObject(R.objFactory(R.OBJECT_TYPES.ncp), 10, 5);
+		// this.player = R.OBJECT_TYPES.player;
+		// this.map.addObject(this.player, 5, 3);
+		// this.map.addObject(R.objFactory(R.OBJECT_TYPES.npc), 10, 5);
+
+		mapData = R.testMaps.veryBasic1;
+		this.map = new R.Map(mapData.w, mapData.h, mapData.terrain);
+		if (mapData.objects) {
+			this.map.loadObjects(mapData.objects);
+		}
+		this.player = this.map.loadPlayer(mapData.player);
 
 
 		this.view = new R.SimpleView(this.map);
