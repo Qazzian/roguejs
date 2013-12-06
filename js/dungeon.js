@@ -136,14 +136,20 @@ R.Tile = function(options){
 R.Tile.prototype = {
 	icon: '',
 	type: '',
+	// Can objects be on the tile
 	blockPath: false,
-	blockLOS: false
+	// Can the player see through the tile
+	blockLOS: false,
+	// Can the user see the tile now
+	isVisible: false,
+	// Has the user seen the tile previously
+	hasBeenSeen: false
 };
 
 R.TERRAIN_TYPES = {
 	space: {type: 'space', icon: ' ', blockPath: false, blockLOS: false},
 	wall: {type: 'wall', icon: '#', blockPath: true, blockLOS: true},
-	corridor: {type: 'corridor', icon: ' '},
+	corridor: {type: 'corridor', icon: '.'},
 	water: {type: 'water', icon: '♒︎'}
 };
 

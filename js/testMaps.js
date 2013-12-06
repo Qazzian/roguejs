@@ -7,9 +7,9 @@ Create map generator
 window.R.testMaps = {
 	veryBasic1: {
 		w:8, h:5,
-		terrain: ["########", "#      #", "#      #", "#      #", "########"].join('\n'),
+		terrain: ["########", "#......#", "#......#", "#......#", "########"].join('\n'),
 		objects: [],
-		player: {type:'player', x:3, y:2}
+		player: {type:'player', x:1, y:2}
 	},
 	veryBasic2: {
 		w:20, h:10,

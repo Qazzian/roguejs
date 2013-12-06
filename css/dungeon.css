@@ -15,8 +15,16 @@
 	text-align: center;
 }
 
-/** Tiles and Objects  **/
-.icon_player{ color: #22A522;}
-.icon_npc{ color: yellow;}
+/* terrain you can walk over */
+.tile_corridor { background-color: #111; color: #222222; font-weight: bolder; }
 
-.hidden { color: light_grey !important; }
+/* terrain that can't be walked over */
+.tile_wall { background-color: #201000; color: #663300; }
+
+/** Objects  **/
+.icon_player{ color: #22A522; }
+.icon_npc{ color: yellow; }
+
+
+
+.hidden { background-color: #000; color: #111 !important; }
