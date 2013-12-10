@@ -5,13 +5,13 @@ Create map generator
 */
 
 window.R.testMaps = {
-	veryBasic1: {
+	smallRoom: {
 		w:8, h:5,
 		terrain: ["########", "#......#", "#......#", "#......#", "########"].join('\n'),
 		objects: [],
 		player: {type:'player', x:1, y:2}
 	},
-	veryBasic2: {
+	largeWithNPC: {
 		w:20, h:10,
 		objects: [
 				{type: 'npc', x:10, y:5}

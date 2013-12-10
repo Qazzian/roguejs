@@ -27,7 +27,7 @@ R.Rogue.prototype = {
 		// this.map.addObject(this.player, 5, 3);
 		// this.map.addObject(R.objFactory(R.OBJECT_TYPES.npc), 10, 5);
 
-		mapData = R.testMaps.veryBasic1;
+		mapData = R.testMaps.smallRoom;
 		this.map = new R.Map(mapData.w, mapData.h, mapData.terrain);
 		if (mapData.objects) {
 			this.map.loadObjects(mapData.objects);
