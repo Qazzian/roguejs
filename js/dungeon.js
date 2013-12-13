@@ -72,7 +72,7 @@ R.Map.prototype = {
 		otherObj = this.getObject(x, y);
 		// TODO It should be possible to have multiple objects in pne place
 		if (otherObj) {
-			throw new R.PositionTakenException(x, y);
+			throw new R.PositionTakenException(x, y, otherObj);
 		}
 
 		obj.x = x;
@@ -230,9 +230,10 @@ R.OutOfBoundsException = function(x, y){
 };
 R.OutOfBoundsException.prototype = new RogueException("Position is outside of the map", "Out of Bounds Error");
 
-R.PositionTakenException = function(x, y){
+R.PositionTakenException = function(x, y, obj){
 	this.x = x;
 	this.y = y;
+	this.obj = obj;
 };
 R.PositionTakenException.prototype = new RogueException("Position is taken by another object", "Position Taken Error");
 

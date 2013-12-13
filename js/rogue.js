@@ -51,7 +51,7 @@ R.Rogue.prototype = {
 					this.message("You have reached the edge of the map.");
 				}
 				else if (error instanceof R.PositionTakenException) {
-					this.message("You cannot move there. Something is in the way.");
+					this.message("You cannot move there. " + error.obj.name + " is in the way.");
 				}
 				else if (error instanceof R.PositionImpassibleException) {
 					this.message("You cannot pass over that " + error.tile.type + '.');
