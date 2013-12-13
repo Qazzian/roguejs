@@ -79,25 +79,36 @@ R.Rogue.prototype = {
 		var takeTurn = false;
 		var DIRECTIONS = R.DIRECTIONS;
 
+		// TODO make this configurable
+
 		switch (event.keyCode) {
 
+			// Don't move
 			case 32:
 				dir = DIRECTIONS.still;
 				takeTurn = true;
 				break;
-			case 37:
+			// West
+			case 37: // left cursor key
+			case 72: // H
 				dir = DIRECTIONS.w;
 				takeTurn = true;
 				break;
-			case 38:
+			// North
+			case 38: // Up key
+			case 75: // K
 				dir = DIRECTIONS.n;
 				takeTurn = true;
 				break;
-			case 39:
+			// East
+			case 39: // Left key
+			case 76: // L
 				dir = DIRECTIONS.e;
 				takeTurn = true;
 				break;
-			case 40:
+			// South
+			case 40: // Down key
+			case 74: // J
 				dir = DIRECTIONS.s;
 				takeTurn = true;
 				break;
