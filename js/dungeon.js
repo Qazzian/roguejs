@@ -20,7 +20,7 @@ var Map = R.Map = function(w, h, terrain){
 		for (i=0; i<w; i++) {
 			this.tiles[i] = [];
 			for (j=0; j<h; j++) {
-				this.tiles[i][j] = R.buildTile('space');
+				this.tiles[i][j] = R.buildTile();
 			}
 		}
 	}
@@ -166,11 +166,11 @@ R.tileFromIcon = function(icon) {
 };
 
 R.buildTile = function(type){
+	if (!type) { type = 'corridor'; }
 	if (typeof type === 'string') {
 		type = R.TERRAIN_TYPES[type];
 	}
 	return new R.Tile(type);
-
 };
 
 
