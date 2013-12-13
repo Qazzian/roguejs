@@ -17,6 +17,14 @@ window.R.testMaps = {
 				{type: 'npc', x:10, y:5}
 			],
 		player: {type:'player', x:5, y:3}
+	},
+	twoRoomsWithOneNpc: {
+		w: 10, h:10,
+		terrain: ["##########", "###......#", "###......#", "###......#", "###......#", "#####.####", "#####.####", "#.....####", "#.....####", "##########"].join('\n'),
+		objects: [
+				{type: 'npc', x:2, y:7}
+			],
+		player: {type:'player', x:5, y:3}
 	}
 };
 
