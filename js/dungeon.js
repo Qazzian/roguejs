@@ -87,7 +87,14 @@ R.Map.prototype = {
 
 	loadMap: function(terrain){
 
-		var w, h, x, y, rows = terrain.split('\n');
+		var w, h, x, y, rows;
+
+		if (typeof terrain === 'string') {
+			rows = terrain.split('\n');
+		}
+		else if (terrain.length > 0) {
+			rows = terrain;
+		}
 
 		h = rows.length;
 		w = rows[0].length;
