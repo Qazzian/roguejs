@@ -12,7 +12,6 @@ function getTestGrid(size) {
 			testArray[i][j] = {x:i, y:j};
 		}
 	}
-	console.log("test Array: ", testArray);
 	return testArray;
 }
 
@@ -44,5 +43,21 @@ test("iterRoundPos", function(){
 	var testGrid = getTestGrid(10),
 		startPos = [3, 3];
 	equal(testGrid.length, 10, "Have a test array");
+
+	ok(R.iterRoundPos, "Have the iterRoundPos constructor");
+	var iter = new R.iterRoundPos(testGrid, [7, 3], 3),
+		str='', counter = 0;
+	
+	while (iter.hasNext()) {
+		var n = iter.next();
+		counter++;
+		str += '['+n.x+','+n.y+']';
+	}
+
+	console.log(str);
+	
+
+
+
 
 });
