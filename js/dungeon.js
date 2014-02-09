@@ -3,10 +3,50 @@
 
 var R = global.R;
 
+/**
+ * Create a grid for the maps
+ * TODO finish this refactoring
+ * @param {Number} w [description]
+ * @param {Number} h [description]
+ * @param {function} [dataMaker] A function for setting the data of each cell. paramerters are x and y coordinates respectivly.
+ */
+R.Grid = function(w, h, dataMaker){
+	var i, j;
+	this.w = this.length = w;
+	this.h = h;
+
+	if (w > 0) {
+		for (i=0; i<w; i++) {
+			this[i] = [];
+			if (h>0) {
+				if (typeof dataMaker === 'function') {
+					for (j=0; j<h; j++) {
+						this[i][j] = dataMaker(i, j);
+					}
+				}
+				else {
+					this[i].length = h;
+				}
+				
+			}
+		}
+	}
+
+};
+
+R.Grid.prototype = {
+	__iterator__: function(){
+		return new R.Iter(this);
+	}
+};
+
 var Map = R.Map = function(w, h, terrain){
 	var i, j;
 
-	this.tiles = [];
+	this.width = w || 100;
+	this.height = h || 75;
+
+	this.grid = new R.Grid(w,h);
 	this.objects = [];
 
 	if (terrain) {
@@ -18,23 +58,19 @@ var Map = R.Map = function(w, h, terrain){
 		this.height = h;
 
 		for (i=0; i<w; i++) {
-			this.tiles[i] = [];
+			this.grid[i] = [];
 			for (j=0; j<h; j++) {
-				this.tiles[i][j] = R.buildTile();
+				this.grid[i][j] = R.buildTile();
 			}
 		}
 	}
 };
 
 R.Map.prototype = {
-	width: 100,
-	height: 75,
-	tiles: null,
-	objects: null,
 
 	getTile: function(x, y){
 		if (this.isOnMap(x,y)){
-			return this.tiles[x][y];
+			return this.grid[x][y];
 		}
 		throw new R.OutOfBoundsException(x, y);
 	},
@@ -64,7 +100,7 @@ R.Map.prototype = {
 			throw new R.OutOfBoundsException(x, y);
 		}
 
-		tile = this.tiles[x][y];
+		tile = this.grid[x][y];
 		if (tile.blockPath) {
 			throw new R.PositionImpassibleException(x, y, tile);
 		}
@@ -89,6 +125,11 @@ R.Map.prototype = {
 
 		var w, h, x, y, rows;
 
+		if (terrain instanceof R.Grid) {
+			this.grid = terrain;
+			this.width = grid.w;
+			this.height = grid.h;
+		}
 		if (typeof terrain === 'string') {
 			rows = terrain.split('\n');
 		}
@@ -103,12 +144,12 @@ R.Map.prototype = {
 
 		this.width = w;
 		this.height = h;
-		this.tiles = [];
+		this.grid = [];
 
 		for (x=0; x<w; x++) {
-			this.tiles[x] = [];
+			this.grid[x] = [];
 			for (y=0; y<h; y++) {
-				this.tiles[x][y] = new R.Tile(R.TERRAIN_ICON_TO_TYPE[rows[y][x]]);
+				this.grid[x][y] = new R.Tile(R.TERRAIN_ICON_TO_TYPE[rows[y][x]]);
 			}
 		}
 	},
@@ -125,6 +166,19 @@ R.Map.prototype = {
 		var player = R.objFactory(playerData.type);
 		this.addObject(player, playerData.x, playerData.y);
 		return player;
+	},
+
+	/**
+	 * [__iterator__ description] 
+	 * @param  {[type]} startPos [description]
+	 * @param  {[type]} depth    [description]
+	 * @return {[type]}          [description]
+	 */
+	__iterator__: function(startPos, depth){
+		if (startPos) {
+			return new R.iterRoundPos(this, startPos, depth);
+		}
+		return new R.Iter(this);
 	}
 
 };
@@ -195,11 +249,25 @@ Room.prototype = {
 	y2:null
 };
 
-var Dir = function(dx, dy) {
-	this.dx = dx;
-	this.dy = dy;
+/**
+ * Add two locations or a location and a direction together.
+ * @param {[type]} pos1 [description]
+ * @param {[type]} pos2 [description]
+ */
+R.addLocations = function(pos1, pos2){
+	var x = pos1[0] + pos2[0],
+		y = pos1[1] + pos2[1];
+
+	return [x, y];
 };
-var DIRECTIONS = R.DIRECTIONS = {
+
+
+var Dir = R.Dir = function(dx, dy) {
+	this[0] = this.dx = dx;
+	this[1] = this.dy = dy;
+};
+
+var directions = R.DIRECTIONS = {
 	n: new Dir(0, -1),
 	ne: new Dir(1, -1),
 	e: new Dir(1, 0),
