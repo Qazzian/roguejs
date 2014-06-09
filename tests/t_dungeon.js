@@ -62,7 +62,6 @@ test("iterRoundPos", function(){
 	try {
 		while (true) {
 			n = iter.next();
-			console.log('add pos: ', n);
 			counter++;
 			str += '['+n.x+','+n.y+']';
 		}
@@ -71,9 +70,6 @@ test("iterRoundPos", function(){
 		ok(error instanceof StopIteration, "Got the end of the Iter");
 	}
 
-	console.log("out: ", str);
 	equal(str, expectedStr, "Looks like iter went all the way round");
-
-
 
 });

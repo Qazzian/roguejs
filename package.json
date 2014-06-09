@@ -1,0 +1,24 @@
+{
+  "name": "roguejs",
+  "version": "0.0.0",
+  "description": "A rogue clone written in javascript to run in a web browser.",
+  "main": "index.html",
+  "scripts": {
+    "test": "grunt qunit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Qazzian/roguejs.git"
+  },
+  "keywords": [
+    "rogue",
+    "game",
+    "rpg"
+  ],
+  "author": "Qazzian",
+  "license": "GPL3",
+  "bugs": {
+    "url": "https://github.com/Qazzian/roguejs/issues"
+  },
+  "homepage": "https://github.com/Qazzian/roguejs"
+}
