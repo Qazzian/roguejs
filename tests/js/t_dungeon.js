@@ -4,22 +4,10 @@ test("Maps", function(){
 	ok(true, "testing");
 });
 
-function getTestGrid(size) {
-	return new R.Grid(size, size, function testGridDataMaker(x, y){
-		return {x:x, y:y};
-	});
-}
-
-function getTestMap(size){
-	var map = new R.Map();
-	map.grid = getTestGrid(size);
-	return map;
-}
-
 
 test("Iterator", function(){
 	var tSize = 5,
-		testArray = getTestGrid(tSize),
+		testArray = Mock.getTestGrid(tSize),
 		iter;
 	equal(testArray.w, tSize, "Have a test grid");
 
@@ -51,7 +39,7 @@ test("Iterator", function(){
 
 test("iterRoundPos", function(){
 	// TODO need a test map instead of a test grid
-	var testMap = getTestMap(10),
+	var testMap = Mock.getTestMap(10),
 		startPos = [3, 3], n,
 		expectedStr = "[8,3][8,4][7,4][6,4][6,3][6,2][7,2][8,2][9,2][9,3][9,4][9,5][8,5][7,5][6,5][5,5][5,4][5,3][5,2][5,1][6,1][7,1][8,1][9,1][9,6][8,6][7,6][6,6][5,6][4,6][4,5][4,4][4,3][4,2][4,1][4,0][5,0][6,0][7,0][8,0][9,0]";
 	ok(testMap, "Have a test array");

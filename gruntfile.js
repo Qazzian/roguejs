@@ -5,8 +5,9 @@ module.exports = function(grunt) {
 			dev: {
 				options: {
 					port: 7000,
-					base: '/',
-					hostname: '*'
+					base: './',
+					hostname: '*',
+					keepalive: true
 				}
 			}
 
@@ -16,8 +17,8 @@ module.exports = function(grunt) {
 		},
 
 		watch: {
-			js: {
-				files: ['js/**/*.js', 'tests/t_*.js'],
+			tests: {
+				files: ['js/**/*.js', 'tests/js/t_*.js', 'tests/index.html', 'tests/mock/*.js'],
 				tasks: ['qunit']
 			}
 		}
