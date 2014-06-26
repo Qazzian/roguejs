@@ -2,9 +2,108 @@
 
 "use strict";
 
+  var isTerm = false;
+  isTerm = !!navigator.userAgent.match('PhantomJS');
+
+
+
 var SimpleView = global.R.SimpleView = function (map){
 	this.map = map;
 };
+
+var LogView = global.R.LogView = function(map){
+	this.map = map;
+	this.bgColour = '';
+	this.fgColour = '';
+
+	this.styles = [];
+
+	this.colours = {
+    // background colours
+		visible: 'ffffff',
+		seen: '999999',
+		unseen: '000000'
+    // foreground colours
+	}
+};
+
+LogView.prototype = {
+	print: function(){
+		var str = '';
+
+		for (var y=0; y<this.map.height; y++) {
+			for (var x=0; x<this.map.width; x++) {
+				str += this.printTile(x, y);
+			}
+			str += '\n';
+		}
+
+		//console.log.apply(console, [str].concat(this.styles));
+		return str.replace('%c', '');
+	},
+
+	printTile: function(x, y) {
+		var tile = this.map.getTile(x, y),
+			obj = this.map.getObject(x, y);
+
+		return this.getIcon(tile, obj);
+	},
+
+	getIcon: function(tile, gameObj){
+		var content = '';
+
+		content += this.setStyle(tile, gameObj);
+
+		if (tile) {
+			content += tile.icon || '.';
+		}
+
+		if (gameObj) {
+			content += gameObj.icon;
+		}
+
+		return content;
+	},
+	setStyle: function(tile, gameObj){
+		// TODO fork for nodejs and terminal colours
+		// TODO add foreground colours
+		// TODO decide on colour scheme for visible, seen, unseen for bg colors
+		var bgc = '',
+      fgc = '',
+			content = '';
+
+    if (tile.isVisible) {
+      bgc = this.colours.visible;
+    }
+    else if (tile.hasBeenSeen) {
+      bgc = this.colours.seen;
+    }
+    else {
+      bgc = this.colours.unseen;
+    }
+
+		if (bgc !== this.bgColour || fgc !== this.fgColour) {
+			this.bgColour = bgc;
+      this.fgColour = fgc;
+			content += isTerm ? '%s':'%c';
+			this.buildStyle(bgc, fgc);
+		}
+		return content;
+	},
+	buildStyle: function(bgc, fgc){
+    isTerm ? this.buildStyleTerminal(bgc, fgc) : this.buildStyleBrowser(bgc, fgc);
+	},
+  buildStyleTerminal: function(bgc, fgc) {
+
+  },
+  buildStyleBrowser: function(bgc, fgc) {
+    var style = [];
+
+    style.push('background-color:'+bgc);
+
+    this.styles.push(style.join(';'));
+  }
+}
 
 var objTypeToClass = {
 	default: '',
