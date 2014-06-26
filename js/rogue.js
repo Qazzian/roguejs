@@ -4,6 +4,10 @@
 
 var R = global.R = {};
 
+R.Config = {
+	fov_depth: 4
+};
+
 
 
 R.Rogue = function(){
@@ -117,7 +121,7 @@ R.Rogue.prototype = {
 		if (takeTurn) {
 			this.takeTurn(dir);
 		}
-	},
+	}
 
 	
 };
@@ -152,7 +156,7 @@ R.Schedular.prototype = {
 		this.turnCount++;
 
 		if (this.schedule[this.turnCount]) {
-			eventist = this.schedule[this.turnCount];
+			eventList = this.schedule[this.turnCount];
 			for (i=0; i<eventList.length; i++) {
 				try{
 					eventList[i].func();

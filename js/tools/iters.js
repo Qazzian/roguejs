@@ -3,10 +3,16 @@
 var R = global.R;
 
 if (typeof StopIteration === 'undefined') {
-	global.StopIteration = function(){
+	global.StopIteration = function(index, item){
+		this.prototype = new Error("Stop Iteration");
+    if (index) {
+      this.index = index;
+    }
+    if (item) {
+      this.item = item;
+    }
 
 	};
-	StopIteration.prototype = new Error("Stop Iteration");
 
 }
 
@@ -102,11 +108,13 @@ R.iterRoundPos.prototype = {
 			pos;
 
 		if (this.currentDepth > this.maxdepth){
-			throw new StopIteration();
+			throw new StopIteration(this.index, {depth: this.currentDepth, maxDepth: this.maxDepth});
 		}
+    // Stop iter if ALL the points in the next depth are outside of the map area.
 		if (this.x_min < 0 && this.x_max >= this.map.width &&
 			this.y_min < 0 && this.y_max >= this.map.height){
-			throw new StopIteration();
+
+			throw new StopIteration(this.index, [this.x_min, this.y_min, this.x_max, this.y_max]);
 		}
 
 		if (this.x == this.current_depth_start_pos[0] && this.y == this.current_depth_start_pos[1]){

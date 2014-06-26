@@ -85,6 +85,33 @@ R.Map.prototype = {
 		return null;
 	},
 
+	/**
+	 * Returns the point next to 'start' in the direction of 'end'
+	 * @param start {[x, y]} - Coords of the starting location
+	 * @param end {[x, y]} - Coords of the destination to move towards.
+	 */
+	getNextTile: function(start, end) {
+		var xdir = 0, ydir = 0;
+
+		if (start.x < end.x) {
+			xdir = 1;
+		}
+		else if (start.x > end.x) {
+			xdir = -1;
+		}
+
+		if (start.y < end.y) {
+			ydir = 1;
+		}
+		else if (start.y > end.y) {
+			ydir = -1;
+		}
+
+		if (this.isOnMap(start.x + xdir, start.y + ydir)) {
+			return this.getTile(start.x + xdir, start.y + ydir);
+		}
+	},
+
 	addObject: function(obj, x, y) {
 		this.placeObj(obj, x, y);
 		this.objects.push(obj);
@@ -185,28 +212,33 @@ R.Map.prototype = {
 
 };
 
-R.Tile = function(options){
-	this.type = options.type;
-	this.icon = options.icon;
-	if (typeof options.blockPath !== "undefined") {
-		this.blockPath = options.blockPath;
+R.Pos = function(x, y){
+	if (_.isArray(x)) {
+		y = x[1];
+		x = x[0];
 	}
-	if (typeof options.blockLOS !== "undefined") {
-		this.blockLOS = options.blockLOS;
+
+	this.x = x;
+	this.y = y;
+};
+
+
+
+R.Tile = function(options){
+	var ops = $.extend({}, options, this.defaultOptions);
+	this.type = ops.type || '';
+	this.icon = ops.icon || '';
+	this.blockPath = ops.blockPath || false;
+	this.blockLOS = ops.blockLOS || false;
+	this.isVisible = ops.isVisible || false;
+	this.hasBeenSeen = ops.hasBeenSeen || false;
+	if (ops.pos instanceof R.Pos){
+		_.extend(this, ops.pos);
 	}
 };
 
 R.Tile.prototype = {
-	icon: '',
-	type: '',
-	// Can objects be on the tile
-	blockPath: false,
-	// Can the player see through the tile
-	blockLOS: false,
-	// Can the user see the tile now
-	isVisible: false,
-	// Has the user seen the tile previously
-	hasBeenSeen: false
+
 };
 
 R.TERRAIN_TYPES = {
@@ -253,14 +285,15 @@ Room.prototype = {
 
 /**
  * Add two locations or a location and a direction together.
- * @param {[type]} pos1 [description]
- * @param {[type]} pos2 [description]
+ * @param {R.Pos} pos1
+ * @param {R.Pos} pos2
+ * @return {R.Pos}
  */
 R.addLocations = function(pos1, pos2){
-	var x = pos1[0] + pos2[0],
-		y = pos1[1] + pos2[1];
+	var x = pos1.x + pos2.x,
+		y = pos1.y + pos2.y;
 
-	return [x, y];
+	return new R.Pos(x, y);
 };
 
 
@@ -338,8 +371,6 @@ MapSeriallizer.prototype = {
 	 * returns a map object
 	 */
 	load: function(string){
-
-
 
 
 
