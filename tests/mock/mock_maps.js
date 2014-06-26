@@ -7,13 +7,13 @@ if (!window.Mock) {
 
 	Mock.getTestGrid = function(size) {
 		return new R.Grid(size, size, function testGridDataMaker(x, y){
-			return {x:x, y:y};
+			return new R.Tile({pos: new R.Pos(x, y)});
 		});
 	};
 
 	Mock.getTestMap = function(size){
 		var map = new R.Map();
-		map.grid = Mock.getTestGrid(size);
+		map.loadMap(Mock.getTestGrid(size));
 		return map;
 	};
 

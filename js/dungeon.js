@@ -43,15 +43,16 @@ R.Grid.prototype = {
 var Map = R.Map = function(w, h, terrain){
 	var i, j;
 
-	this.width = w || 100;
-	this.height = h || 75;
-
-	this.grid = new R.Grid(w,h);
 	this.objects = [];
 
 	if (terrain) {
 		return this.loadMap(terrain);
 	}
+
+	this.width = w || 100;
+	this.height = h || 75;
+
+	this.grid = new R.Grid(w,h);
 
 	if (w && h){
 		this.width = w;
@@ -127,9 +128,8 @@ R.Map.prototype = {
 
 		if (terrain instanceof R.Grid) {
 			this.grid = terrain;
-			this.width = grid.w;
-			this.height = grid.h;
 		}
+
 		if (typeof terrain === 'string') {
 			rows = terrain.split('\n');
 		}
@@ -140,18 +140,20 @@ R.Map.prototype = {
 		h = rows.length;
 		w = rows[0].length;
 
-		console.log("terrain width: ", w, "height: ", h, "\ndata: ", rows);
-
 		this.width = w;
 		this.height = h;
-		this.grid = [];
 
-		for (x=0; x<w; x++) {
-			this.grid[x] = [];
-			for (y=0; y<h; y++) {
-				this.grid[x][y] = new R.Tile(R.TERRAIN_ICON_TO_TYPE[rows[y][x]]);
+		if (_.isArray(rows) && typeof rows[0] === 'string') {
+			this.grid = [];
+
+			for (x=0; x<w; x++) {
+				this.grid[x] = [];
+				for (y=0; y<h; y++) {
+					this.grid[x][y] = new R.Tile(R.TERRAIN_ICON_TO_TYPE[rows[y][x]]);
+				}
 			}
 		}
+		// TODO if rows is a 2d array of objects then assume the objects are tiles and put them in a new grid.
 	},
 
 	loadObjects: function(objectData){
