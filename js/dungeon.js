@@ -311,7 +311,7 @@ var directions = R.DIRECTIONS = {
 	sw: new Dir(-1, 1),
 	w: new Dir(-1, 0),
 	nw: new Dir(-1, -1),
-	still: new Dir(0, 0),
+	still: new Dir(0, 0)
 };
 
 
@@ -320,7 +320,7 @@ var RogueException = R.RogueException = function(msg, name){
 	this.name = name || "RogueException";
 	this.message = msg || "There was an unexpected error in the game";
 	this.toString = function(){
-		str = this.name + ": " + this.message;
+		var str = this.name + ": " + this.message;
 		if (! isNaN(this.x) && !isNaN(this.y)) {
 			str += "\nAt position " + this.x + ',' + this.y;
 		}

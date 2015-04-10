@@ -103,7 +103,7 @@ LogView.prototype = {
 
     this.styles.push(style.join(';'));
   }
-}
+};
 
 var objTypeToClass = {
 	default: '',
