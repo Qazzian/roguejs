@@ -14,6 +14,42 @@ R.Rogue = function(){
 	this.init();
 };
 
+R.UIController = function(){
+    _.extend(this, Backbone.Event);
+    this.keycodes = this.processKeyCodes(this.actions);
+    this.bindEvents();
+};
+
+R.UIController.prototype = {
+    actions: {
+        WAIT: [32],
+        LEFT: [37, 72],
+        RIGHT: [39, 76],
+        UP: [38, 75],
+        DOWN: [40, 74]
+    },
+    processKeyCodes: function(actions){
+        var codeSet = {};
+        _.each(actions, function(codes, action){
+            _.each(codes, function(keyCode){
+                codeSet[keyCode] = action;
+            });
+        });
+        return codeSet;
+    },
+    bindEvents: function(){
+        var self = this;
+        $(document).on('keydown', this.onKey.bind(this, true), false);
+        $(document).on('keyup', this.onKey.bind(this, false), false);
+        $(document).on('touchstart', this.onTouch.bind(this), false);
+        $(document).on('touchmove', this.onTouch.bind(this), false);
+        $(document).on('touchend', this.onTouchEnd.bind(this), false);
+    },
+    onTouch: function(){},
+    onTouchEnd: function(){},
+    onKey: function(){}
+};
+
 R.Rogue.prototype = {
 	player: null,
 	map: null,
@@ -116,6 +152,8 @@ R.Rogue.prototype = {
 				dir = DIRECTIONS.s;
 				takeTurn = true;
 				break;
+            default:
+                return;
 		}
 
 		if (takeTurn) {
