@@ -39,15 +39,21 @@ R.UIController.prototype = {
     },
     bindEvents: function(){
         var self = this;
-        $(document).on('keydown', this.onKey.bind(this, true), false);
-        $(document).on('keyup', this.onKey.bind(this, false), false);
-        $(document).on('touchstart', this.onTouch.bind(this), false);
-        $(document).on('touchmove', this.onTouch.bind(this), false);
-        $(document).on('touchend', this.onTouchEnd.bind(this), false);
+        $(document).on('keydown', self.onKey.bind(self, true));
+        $(document).on('keyup', self.onKey.bind(self, false));
+        $(document).on('touchstart', self.onTouch.bind(self));
+        $(document).on('touchmove', self.onTouch.bind(self));
+        $(document).on('touchend', self.onTouchEnd.bind(self));
+    },
+    onKey: function(isDown, e){
+        var action = this.keycodes[e.keyCode];
+        if (typeof action === 'undefined') return;
+        this.trigger('UI:' + action + (isDown?':start':':stop') );
+        e.preventDefault && e.preventDefault();
+        e.stopPropagation && e.stopPropagation();
     },
     onTouch: function(){},
-    onTouchEnd: function(){},
-    onKey: function(){}
+    onTouchEnd: function(){}
 };
 
 R.Rogue.prototype = {
