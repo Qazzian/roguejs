@@ -4,7 +4,8 @@
   "description": "A rogue clone written in javascript to run in a web browser.",
   "main": "index.html",
   "scripts": {
-    "test": "grunt qunit"
+    "test": "grunt qunit",
+    "postinstall": "grunt postInstall"
   },
   "repository": {
     "type": "git",

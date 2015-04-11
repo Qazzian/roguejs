@@ -12,6 +12,13 @@ module.exports = function(grunt) {
 			}
 
 		},
+		copy: {
+			install: {
+				files: {
+					'js/lib/seedrandom.js': 'node_modules/seedrandom/seedrandom.js'
+				}
+			}
+		},
 		qunit: {
 			all:['tests/index.html']
 		},
@@ -29,5 +36,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-qunit');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+
+    grunt.registerTask('postInstall', ['copy:install']);
+
+
 };
 
