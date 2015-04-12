@@ -118,7 +118,7 @@ R.Map.prototype = {
 	},
 
 	moveObj: function(obj, dir){
-		return this.placeObj(obj, obj.x+dir.dx, obj.y+dir.dy);
+		return this.placeObj(obj, obj.x + dir.dx, obj.y + dir.dy);
 	},
 
 	placeObj: function(obj, x, y) {
@@ -303,15 +303,15 @@ var Dir = R.Dir = function(dx, dy) {
 };
 
 var directions = R.DIRECTIONS = {
-	n: new Dir(0, -1),
-	ne: new Dir(1, -1),
-	e: new Dir(1, 0),
-	se: new Dir(1, 1),
-	s: new Dir(0, 1),
-	sw: new Dir(-1, 1),
-	w: new Dir(-1, 0),
-	nw: new Dir(-1, -1),
-	still: new Dir(0, 0)
+	N: new Dir(0, -1),
+	NE: new Dir(1, -1),
+	E: new Dir(1, 0),
+	SE: new Dir(1, 1),
+	S: new Dir(0, 1),
+	SW: new Dir(-1, 1),
+	W: new Dir(-1, 0),
+	NW: new Dir(-1, -1),
+	STILL: null
 };
 
 

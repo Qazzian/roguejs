@@ -23,10 +23,10 @@ R.UIController = function(){
 R.UIController.prototype = {
     actions: {
         WAIT: [32],
-        LEFT: [37, 72],
-        RIGHT: [39, 76],
-        UP: [38, 75],
-        DOWN: [40, 74]
+	    N: [38, 75],
+	    E: [39, 76],
+	    S: [40, 74],
+	    W: [37, 72]
     },
     processKeyCodes: function(actions){
         var codeSet = {};
@@ -125,37 +125,36 @@ R.Rogue.prototype = {
 		var takeTurn = false;
 		var DIRECTIONS = R.DIRECTIONS;
 
-		// TODO make this configurable
 
 		switch (event.keyCode) {
 
 			// Don't move
 			case 32:
-				dir = DIRECTIONS.still;
+				dir = DIRECTIONS.STILL;
 				takeTurn = true;
 				break;
 			// West
 			case 37: // left cursor key
 			case 72: // H
-				dir = DIRECTIONS.w;
+				dir = DIRECTIONS.W;
 				takeTurn = true;
 				break;
 			// North
 			case 38: // Up key
 			case 75: // K
-				dir = DIRECTIONS.n;
+				dir = DIRECTIONS.N;
 				takeTurn = true;
 				break;
 			// East
 			case 39: // Left key
 			case 76: // L
-				dir = DIRECTIONS.e;
+				dir = DIRECTIONS.E;
 				takeTurn = true;
 				break;
 			// South
 			case 40: // Down key
 			case 74: // J
-				dir = DIRECTIONS.s;
+				dir = DIRECTIONS.S;
 				takeTurn = true;
 				break;
             default:
