@@ -15,7 +15,7 @@ R.Rogue = function(){
 };
 
 R.UIController = function(){
-    _.extend(this, Backbone.Event);
+    _.extend(this, Backbone.Events);
     this.keycodes = this.processKeyCodes(this.actions);
     this.bindEvents();
 };
@@ -65,6 +65,11 @@ R.Rogue.prototype = {
 	init: function(){
 		var self = this,
 			mapData;
+		this.uiController = new R.UIController();
+		this.uiController.bind('UI', function(event){
+			console.log('EVENT', event);
+		});
+
 		$(document).on('keyup', function(event){self.onKeyPress(event);});
 		
 		// this.map = new R.Map(20, 10);
