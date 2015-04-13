@@ -15,7 +15,7 @@ R.Rogue = function(){
 };
 
 R.UIController = function(){
-    _.extend(this, Backbone.Events);
+    _.extend(this, Qazzian.Events);
     this.keycodes = this.processKeyCodes(this.actions);
     this.bindEvents();
 };

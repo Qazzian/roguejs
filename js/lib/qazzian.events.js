@@ -1,4 +1,4 @@
-// Backbone.Events
+// Qazzian.Events
 // -----------------
 
 // A module that can be mixed in to *any object* in order to provide it with
@@ -6,25 +6,29 @@
 // `trigger`-ing an event fires all callbacks in succession.
 //
 //     var object = {};
-//     _.extend(object, Backbone.Events);
+//     _.extend(object, Qazzian.Events);
 //     object.bind('expand', function(){ alert('expanded'); });
 //     object.trigger('expand');
 //
+// Forked from Backbone.Events
 
 (function(){
+    "use strict";
 
-    if (!window.Backbone) {
-        window.Backbone = {};
+    if (!window.Qazzian) {
+        window.Qazzian = {};
     }
 
-    if (window.Backbone.Events) {
+    if (window.Qazzian.Events) {
         return;
     }
 
-    Backbone.Events = {
+    window.Qazzian.Events = {
 
         // Bind an event, specified by a string name, `ev`, to a `callback` function.
         // Passing `"all"` will bind the callback to all events fired.
+        // Event hierarchies are split with a ':'.
+        // The implimentation
         bind : function(ev, callback, context) {
             var calls = this._callbacks || (this._callbacks = {});
             var list  = calls[ev] || (calls[ev] = {});
@@ -61,11 +65,16 @@
         // same arguments as `trigger` is, apart from the event name.
         // Listening for `"all"` passes the true event name as the first argument.
         trigger : function(eventName) {
-            var node, calls, callback, args, ev, events = ['all', eventName];
+            var node, calls, callback, args, ev, events = ['all'];
+            var eventNameParts = eventName.split(':'), lastName = '';
+            _.each(eventNameParts, function(part, index){
+                lastName = eventNameParts.slice(0, 1+index).join(':');
+                events.push(lastName);
+            });
             if (!(calls = this._callbacks)) return this;
             while (ev = events.pop()) {
                 if (!(node = calls[ev])) continue;
-                args = ev == 'all' ? arguments : slice.call(arguments, 1);
+                args = ev !== eventName ? arguments : Array.prototype.slice.call(arguments, 1);
                 while (node = node.next) if (callback = node.callback) callback.apply(node.context || this, args);
             }
             return this;
