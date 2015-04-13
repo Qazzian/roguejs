@@ -82,7 +82,7 @@ R.iterRoundPos = function(map, startPos, depth) {
 	this.y = this.y_min = this.y_max = startPos[1];
 	this.maxdepth = depth ? depth : Number.POSITIVE_INFINITY;
 
-	this.start_direction = R.DIRECTIONS.ne;
+	this.start_direction = R.DIRECTIONS.NE; // TODO should probably pass this in as a variable
 	this.current_depth_start_pos = [this.x, this.y];
 };
 
