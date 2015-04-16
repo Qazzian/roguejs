@@ -15,7 +15,9 @@ module.exports = function(grunt) {
 		copy: {
 			install: {
 				files: {
-					'js/lib/seedrandom.js': 'node_modules/seedrandom/seedrandom.js'
+					'js/lib/seedrandom.js': 'node_modules/seedrandom/seedrandom.js',
+					'tests/qunit.css': 'node_modules/qunitjs/qunit/qunit.css',
+					'tests/qunit.js': 'node_modules/qunitjs/qunit/qunit.js'
 				}
 			}
 		},
